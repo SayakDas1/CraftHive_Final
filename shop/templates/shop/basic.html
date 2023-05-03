@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+    <!--font awesome icon packs-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700&family=Rubik:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <title>{% block title%} {% endblock %}</title>
+     <style>
+       {% block css %} {% endblock %}
+       *{
+        font-family: 'Montserrat', sans-serif;
+       }
+       nav a{
+        color: black;
+       }
+       footer {
+        background-color: #D7F3FF;
+        padding: 30px 0;
+        height: 280px;
+        bottom:0px;
+      }
+      
+      footer h4 {
+        font-size: 20px;
+        margin-bottom: 10px;
+        color: #333;
+      }
+      
+      footer p {
+        font-size: 14px;
+        line-height: 1.5;
+        color: #666;
+      }
+      
+      footer a {
+        color: #666;
+        text-decoration: none;
+      }
+      
+      footer a:hover {
+        color: #333;
+      }
+      
+      footer ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      
+      footer ul li {
+        margin-bottom: 5px;
+      }
+      
+      footer ul li:last-child {
+        margin-bottom: 0;
+      }
+      
+      footer .container {
+        max-width: 1300px;
+        margin: auto;
+      }
+      
+      footer .row {
+        margin-bottom: 30px;
+      }
+      
+      footer .text-center {
+        font-size: 12px;
+        color: #666;
+        margin-top: 30px;
+      }
+      body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh; 
+      }
+      
+      main {
+        flex-grow: 1; 
+        word-wrap: break-word;
+      }
+      
+      footer {
+        margin-top: auto;
+        bottom: 0; 
+      }
+  </style>
+  </head>
+  <body>
+    {%load static%}
+    <nav class="navbar navbar-expand-lg" style="border-bottom:1px solid grey; color:black;">
+  <a class="navbar-brand" href="/">CraftHive</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      
+      <li class="nav-item active">
+        <a class="nav-link" href="/auction">Auction</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/about">About Us</a>
+      </li>
+
+      {%if request.user.is_customer or not request.user.is_authenticated%}
+      <li class="nav-item">
+        <a class="nav-link" href="/tracker">Tracker</a>
+      </li>
+      
+
+       <li class="nav-item">
+        <a class="nav-link" href="/contact">Contact Us</a>
+      </li>
+      {%endif%}
+      
+      {% if request.user.is_seller %}
+      <li class="nav-item">
+        <a class="nav-link" href="/seller">For You</a>
+      </li>
+      
+      <a href="/productreg"><button class="btn btn-outline-success mx-2 my-sm-0" type="submit" >Sell on CraftHive</button></a>
+      {%endif%}
+    </ul>
+
+    <form method='get' action='/search/' class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search on CraftHive" aria-label="Search" name="search" id="search">
+      <button class="btn btn-outline-info mx-2 my-2 my-sm-0" type="submit">Search</button>
+    </form>
+
+    {% if request.user.is_authenticated %}
+    <!--<div style="border:1px solid blue;border-radius:5px;padding: 2px 10px" class="mx-2">
+    <h5 style="color:blue;">{{request.user}} <i class="fa fa-user" aria-hidden="true"></i></h5>-->
+    <button class="btn btn-outline-success mx-2">{{request.user}} <i class="fa fa-user" aria-hidden="true"></i></button>
+
+    <!--{% if request.user.is_admin %}<h5 style="color: white; font-family: century gothic; margin-right: 20px">(ADMIN)</h5>
+    {% elif request.user.is_customer %}<h5 style="color: white; font-family: century gothic; margin-right: 20px">(CUSTOMER)</h5>
+    {% elif request.user.is_seller %}<h5 style="color: white; font-family: century gothic; margin-right: 20px">(SELLER)</h5>
+    {%endif%}-->
+
+    </div>
+    <a href="/logout"><button class="btn btn-outline-danger my-2 my-sm-0" type="submit" action="/login">Logout</button></a>
+    
+    {%else%}
+    
+    <!--<a href="/productreg"><button class="btn btn-outline-success my-2 mx-2 my-sm-0" type="submit" >Sell on CraftHive</button>-->
+
+    <a href="/login"><button class="btn btn-outline-success my-2 mx-2 my-sm-0" type="submit" action="/login">Login</button></a>
+    <a href="/register"><button class="btn btn-outline-success my-2 my-sm-0" type="submit">Sign Up</button></a>
+    {%endif%}
+
+    {%if not request.user.is_seller %}
+    <button type="button" class="btn btn-secondary mx-2" style="background-color:#00A2DE; border:none" id="popcart" data-container="body" data-toggle="popover" data-placement="bottom" data-html="true" data-content="Vivamus
+sagittis lacus vel augue laoreet rutrum faucibus.">
+
+<i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i> (<span id="cart">0</span>)
+</button>{%endif%}
+  </div>
+</nav>
+  {% block body %} {% endblock %}
+
+<footer style="margin-top:50px;">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <h4>Crafthive</h4>
+          <p>Revolutionizing Arts and Crafts with Trading with Online Auctions</p>
+        </div>
+        <div class="col-md-3">
+          <h4>Links</h4>
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/">Shop</a></li>
+            <li><a href="/auction">Auction</a></li>
+            <li><a href="/contact">Contact</a></li>
+          </ul>
+        </div>
+        <div class="col-md-3">
+          <h4>Contact Us</h4>
+          <p>St. Xavier's College (Autonomous)<br>30 Mother Teresa Sarani, Kolkata 700016<br>West Bengal, India<br>Phone: (555) 555-5555<br>Email: crafthive@crafthive.com</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <p class="text-center">&copy; 2023 Crafthive. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.js"
+    integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+    crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+    {% block js %} {% endblock %}
+  </body>
+</html>

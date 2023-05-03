@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Product Registration</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700&family=Rubik:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <style>
+    /* Global styles */
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-image: url('/static/shop/bg_up.jpg');
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+    
+    h1 {
+      font-size: 32px;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .form-field {
+      margin-bottom: 20px;
+    }
+    
+    label {
+      display: block;
+      font-size: 18px;
+      margin-bottom: 5px;
+    }
+    input,
+    select,
+    textarea,option {
+      width: 98%;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      color: #555;
+      outline: none;
+      transition: border-color 0.2s ease-in-out;
+    }
+    
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: #4d90fe;
+    }
+
+	</style>
+  </head>
+  <body>
+    <div class="container">
+      <center><img src="/static/shop/logo.png" height="120" width="300"></center>
+      <h1>Product Registration</h1>
+      <form method="post" enctype="multipart/form-data" action="">{% csrf_token %}
+        <div class="form-field">
+          <label for="name">Product Name</label>
+          <input type="text" id="name" name="name" required>
+        </div>
+        <div class="form-field">
+          <label for="category">Category</label>
+          <select id="category" name="category" required>
+            <option value="" hidden>Select a category</option>
+            <option value="Art">Art</option>
+            <option value="Handicrafts">Handicrafts</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label for="description">Description</label>
+          <textarea id="description" name="description" required></textarea>
+        </div>
+        <div class="form-field">
+          <label for="price">Price</label>
+          <input type="text" id="price" name="price" required>
+        </div>
+        <div class="form-field">
+          <label for="image">Image</label>
+          <input type="file" id="image" name="image" accept="image/*" required>
+        </div>
+        <div class="form-field">
+          <label for="link">Instagram/Facebook Link</label>
+          <input type="text" id="link" name="link">
+        </div>
+        <div class="form-field">
+          <label for="stock">Stock Available</label>
+          <input type="number" id="stock" name="stock" min=1 required>
+        </div>
+        <div class="form-field">
+          <button type="submit" class="btn btn-success btn-lg" style="width:98%">Submit</button>
+        </div>
+        
+        <a href="/" class="btn btn-info btn-lg" style="width:98%">Go Back to Homepage</a>
+      </form>
+    </div>
+  </body>
+</html>

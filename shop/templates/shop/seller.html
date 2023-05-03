@@ -1,0 +1,119 @@
+{% extends 'shop/basic.html' %}
+{% block title%} Seller : {{request.user}}{% endblock %}
+
+{%block css%}
+    .product-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #f2f2f2;
+      padding: 10px;
+      border-radius: 10px;
+      margin: 20px;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+      transition: all 0.2s ease-in-out;
+    }
+  
+    .product-info {
+      display: flex;
+      align-items: center;
+    }
+  
+    .product-name {
+      font-size: 20px;
+      margin-right: 20px;
+      color: #333;
+    }
+  
+    .view-btn {
+      padding: 8px 16px;
+      background-color: #3498db;
+      border: none;
+      border-radius: 6px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: bold;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+    }
+  
+    .view-btn:hover {
+      background-color: #2980b9;
+    }
+  
+    .stock-form {
+      display: flex;
+      align-items: center;
+    }
+  
+    .stock-form label {
+      font-size: 16px;
+      color: #333;
+      margin-right: 20px;
+      font-weight: 500;
+    }
+  
+    .stock-form input[type="number"] {
+      padding: 8px 10px;
+      font-size: 14px;
+      color: #333;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      margin-right: 20px;
+    }
+  
+    .update-btn {
+      padding: 8px 16px;
+      background-color: #66cc33;
+      border: none;
+      border-radius: 6px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: bold;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+    }
+  
+    .update-btn:hover {
+      background-color: #52b233;
+    }
+    .prod-stock{
+        margin-left:20px;
+        margin-right:15px;
+    }
+  {%endblock%}
+{% block body %}
+
+    {% for i in products %}
+
+    <div class="product-row">
+        <div class="product-info">
+          <h2 class="product-name">&#x2022; {{i.product_name}}
+          
+          <span class="prod-stock">(Stock : {{i.stock}})</span></h2>
+          <a href="/products/{{i.id}}">
+            <button class="view-btn">Quick View</button></a>
+        </div>
+        <form class="stock-form" action="" method="post" onsubmit="sure();" name="stock">{% csrf_token %}
+          <label for="stock-input">Update Stock:</label>
+          <input type="number" min="0" name="stocks" id="stocks">
+          <input type="hidden" name="prodid" value={{i.id}}>
+          <button type="submit" class="update-btn" id="{{i.id}}">Update</button>
+        </form>
+      </div>
+
+    {% endfor %}
+{% endblock %}
+{%block js%}
+<script>
+    function sure(){
+        var conf = confirm('Are you sure you want to proceed with updating the stock?');
+        if(conf!=true){
+            event.preventDefault();  
+        }
+            
+    }
+</script>
+{%endblock%}

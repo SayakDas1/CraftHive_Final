@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Payment Success</title>
+    <style>
+        body {
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+          }
+          
+          .container {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+          }
+          
+          h1 {
+            color: #0070c0;
+          }
+          
+          a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            background-color: #0070c0;
+            color: #fff;
+            text-decoration: none;
+            transition: background-color 0.3s ease-in-out;
+          }
+          
+          a:hover {
+            background-color: #00509d;
+          }
+          
+    </style>
+  </head>
+  <body onload="success();">
+    <div class="container">
+      <h1>Payment Request Received</h1>
+      <p>Thank you for shopping with us. Your payment is being processed.</p>
+
+      <!--<form name="orderplace" method="get" action="">
+        <input type="hidden" name="order" id="order">
+        <button type="submit">Check Status</button>
+      </form>-->
+
+      <a href="/">Return to homepage</a>
+    </div>
+    <script>
+      function success()
+      {
+          order_json = localStorage.getItem('order');
+          console.log(order_json);
+          orderplace.order.value = order_json;
+      }
+    </script>
+  </body>
+</html>

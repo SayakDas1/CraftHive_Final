@@ -1,0 +1,203 @@
+{% extends 'shop/basic.html' %}
+{% block title%} {{product.product_name}} - CraftHive{% endblock %}
+{%block css%}
+*{
+    word-wrap: break-word;
+}
+.checked{
+    color:orange;
+}
+input[type=radio]{
+    position: fixed;
+    opacity: 0;
+    pointer-events: none;
+}
+.rating {
+    display: flex;
+    align-items: center;
+  }
+  
+  .rating input[type="radio"] {
+    display: none;
+  }
+  
+  .rating label {
+    font-size: 25px;
+    color: #ddd;
+    cursor: pointer;
+  }
+  
+  .rating label:hover ::before,
+  .rating label:hover ~ label,
+  .rating input[type="radio"]:checked ~ label {
+    color: #ffbf00;
+  }
+{%endblock%}
+{% block body %}
+
+{%if error%}
+<script>
+    alert("You cannot submit reviews twice for the same product!");
+</script>
+{%endif%}
+
+<div class="container my-4">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="row" width="100%" style="width:100%;height:65%">
+                <img src="/media/{{product.image}}" width="100%" height="150%" style="margin:auto;">
+            </div>
+        </div>
+        <div class="col-md-8">
+            <h1 style="color:#0066CE;">{{product.product_name}}</h1>
+            <h3>Price : <span style="color:#FF7D00;">Rs.{{product.price}}</span></h3>
+            <h5>About the Product: <p style="color:#FF316C;">{{product.desc}}</p></h5>
+            <h5>Brought to you by : <span style="color:#2F4858">{{product.seller_name}}</span> ({{product.seller_email}})</h5>
+            <h5>Connect with the Seller At : <a href="{{product.link}}" target="_new">Instagram/Facebook Handle</a></h5>
+            {%if product.stock > 0 %}
+            <h5 class="my-2">In stock : <span style="color:green;">{{product.stock}}</span></h5>
+            {%else%}
+            <h5 style="color:red">Out of stock currently!</h5>
+            {%endif%}
+
+            <h5>Rating:
+
+            {% for star in n %}
+                <i class="fa fa-star checked" aria-hidden="true"></i>
+            {% endfor %}
+            {% for star in r %}
+                <i class="fa fa-star" aria-hidden="true"></i>
+            {% endfor %}
+            </h5>
+            <p>{{avg}} <i class="fa fa-star checked" aria-hidden="true"></i> average based on {{no}} review(s).</p> 
+
+            {%if not request.user.is_seller and product.stock != 0%}
+            <div class="row my-3 mx-0">
+                <form name="prod" action="\checkout">
+                    <input type="number" name="qty" id="pr{{product.id}}" min=1 max={{product.stock}} value=1 style="border:1px solid grey; border-radius:5px; width: 80px;" class="p-1">
+
+                    <button type="submit" class="btn btn-primary mx-3 cart" id="pr{{product.id}}">Add to Cart and Checkout</button>
+                </form>
+            </div>
+            {%endif%}
+        </div>
+    </div>
+</div>
+
+
+<div>
+    {%if user.is_authenticated and user.is_customer%}
+    <form action="/review" class="review-form mx-4 my-4" method="get" onsubmit="alert('Review Processing!');">
+        <input type="hidden" name="prod_id" id="prod_id" value="{{product.id}}">
+
+        <div class="mb-3">
+        <label for="exampleFormControlTextarea1" class="form-label">Your Review</label>
+        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="comment" id="comment" required></textarea>
+        </div>
+
+        <div class="rating">
+        <input type="radio" id="star-1" name="rate" value="1" class="fa fa-star">
+        <label for="star-1" class="fa fa-star"></label>
+
+        <input type="radio" id="star-2" name="rate" value="2" class="fa fa-star">
+        <label for="star-2" class="fa fa-star"></label>
+
+        <input type="radio" id="star-3" name="rate" value="3" class="fa fa-star">
+        <label for="star-3" class="fa fa-star"></label>
+
+        <input type="radio" id="star-4" name="rate" value="4" class="fa fa-star">
+        <label for="star-4" class="fa fa-star"></label>
+
+        <input type="radio" id="star-5" name="rate" value="5" class="fa fa-star">
+        <label for="star-5" class="fa fa-star"></label>
+
+        <input type="submit" value="Rate Now" class="btn btn-info mx-3">
+        </div>
+
+       
+    </form>
+    {%elif user.is_customer or not user.is_authenticated%}
+    <div class="alert alert-secondary mx-3 my-3" role="alert">You must be logged in to rate the product</div>
+    {%endif%}
+
+    {%for review in reviews%}
+        <div class="alert alert-success mx-3 my-3 p-3" role="alert">
+            <b>{{review.user.username}}</b> | {{review.created_at}} |     
+                <i class="fa fa-star {%if review.rate > 0 %}checked{%endif%}" aria-hidden="true"></i> 
+                <i class="fa fa-star {%if review.rate > 1 %}checked{%endif%}" aria-hidden="true"></i> 
+                <i class="fa fa-star {%if review.rate > 2 %}checked{%endif%}" aria-hidden="true"></i> 
+                <i class="fa fa-star {%if review.rate > 3 %}checked{%endif%}" aria-hidden="true"></i> 
+                <i class="fa fa-star {%if review.rate > 4 %}checked{%endif%}" aria-hidden="true"></i> | 
+            {{review.comment}}    
+        </div>
+    {%endfor%}
+</div>
+
+{% endblock %}
+{% block js %}
+<script>
+    if (localStorage.getItem('cart') == null) {
+        var cart = {};
+    }
+    else {
+        cart = JSON.parse(localStorage.getItem('cart'));
+        document.getElementById('cart').innerHTML = Object.keys(cart).length;
+    }
+
+    $('.cart').click(function () {
+        var qty = Number(prod.qty.value);
+        console.log('clicked');
+        var idstr = this.id.toString();
+        console.log(idstr);
+        if (cart[idstr] != undefined) 
+        {
+            qty = qty + cart[idstr][0];
+            if (qty > {{ product.stock }})
+                alert('You can buy a maximum of {{product.stock}} of this product!');
+            else
+                cart[idstr] = [qty, '{{product.product_name}}', parseInt({{ product.price }})];
+        }
+        else
+        {
+            if (qty > {{ product.stock }})
+                alert('You can buy a maximum of {{product.stock}} of this product!');
+            else
+                cart[idstr] = [qty, '{{product.product_name}}', parseInt({{ product.price }})];
+        }
+    console.log(cart);
+    localStorage.setItem('cart', JSON.stringify(cart));
+    document.getElementById('cart').innerHTML = Object.keys(cart).length;
+    updatePopover(cart);
+});
+
+
+    $('#popcart').popover();
+    //Test code!
+    updatePopover(cart);
+
+    function updatePopover(cart) {
+        //console.log('We are inside updatePopover');
+        var popStr = "";
+        popStr = popStr + "<h5> Cart for your items in my shopping cart </h5><div class='mx-2 my-2'>";
+        var i = 1;
+        for (var item in cart) {
+            popStr = popStr + "<b>" + i + "</b>. ";
+            popStr = popStr + cart[item][1].slice(0, 19) + "... Qty: " + cart[item][0] + '<br>';
+            i = i + 1;
+
+        }
+
+        popStr = popStr + "</div> <a href='/checkout'><button class='btn btn-info' id ='checkout'>Checkout</button></a> <button class='btn btn-warning' onclick='clearCart()' id ='clearCart'>Clear Cart</button>"
+        //console.log(popStr);
+        document.getElementById('popcart').setAttribute('data-content', popStr);
+        //$('#popcart').popover('show');
+
+    }
+
+    function clearCart() {
+        localStorage.clear();
+        cart = {};
+        updatePopover(cart);
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends 'shop/basic.html' %}
+{% block title%} {{product.0.category}} - CraftHive{% endblock %}
+{%block css%}
+body{
+  font-family: 'Montserrat', sans-serif;
+  background-color: rgb(218, 218, 218);
+}
+nav{
+  background-color:white;
+}
+.container2{
+  margin: auto;
+  margin-top: 50px;
+  max-width: 80%;
+  display: grid;
+  grid-template-columns: 30% 30% 30%;
+  grid-gap : 50px;
+  margin-bottom: 100px;
+}
+.product{
+  font-weight: 500;
+  background-color: #fff;
+  border-radius: 5%;
+  box-shadow: 5px 5px 5px rgb(110, 110, 110);
+  display: flex;
+  flex-direction: column;
+
+}
+img{
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 5%; 
+}
+
+.card-details{
+  padding-left: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height : 180px;
+}
+
+.prod-img{
+  margin: auto;
+  max-height: 300px;
+}  
+
+.pad{
+  padding : 10px;
+}
+
+{%endblock%}
+{% block body %}
+
+<div class="container2">
+      
+  {% for item in product %}
+    <div class="product pad">
+      <div class="prod-img pad"><img src="/media/{{item.image}}" /></div>
+
+      <div class="card-details">
+        <div class="card-name" style="color: #845EC2; font-size: 25px;">{{item.product_name}}</div>
+        <div class="card-price" style="color: #00C9A7;">Price : <b>Rs {{item.price}}</b></div>
+        <div class="card-countdown" style="color : #C34A36">{{item.desc}}</div>
+          <a href="/products/{{item.id}}"
+          <button class="btn btn-info">Quick View</button></a>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{%endblock%}
