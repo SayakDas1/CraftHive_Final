@@ -1,168 +1,135 @@
 *{
-    margin : 0;
-    box-sizing: border-box;
+  margin : 0;
+  box-sizing: border-box;
 }
 .auction-heading{
-    margin : 25px;
+  margin : 25px;
 }
 .background{
-    font-family: 'Montserrat', sans-serif;
-    background-color: rgb(218, 218, 218);
+  font-family: 'Montserrat', sans-serif;
+  background-color: rgb(218, 218, 218);
 }
 .container{
-    max-width: 80%;
-    display: grid;
-    grid-template-columns: 30% 30% 30%;
-    grid-gap : 50px;
-    margin-bottom: 100px;
+  max-width: 80%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-gap : 50px;
+  margin-bottom: 100px;
 }
 .product{
-    font-weight: 500;
-    background-color: #fff;
-    border-radius: 5%;
-    box-shadow: 5px 5px 5px rgb(110, 110, 110);
-    display: flex;
-    flex-direction: column;
+  font-weight: 500;
+  background-color: #fff;
+  border-radius: 5%;
+  box-shadow: 5px 5px 5px rgb(110, 110, 110);
+  display: flex;
+  flex-direction: column;
 
 }
 img{
-    max-width: 100%;
-    max-height: 100%;
+  max-width: 100%;
+  max-height: 100%;
 }
 
 .card-details{
-    padding-left: 15px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    height : 180px;
+  padding-left: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height : 180px;
 }
 
- .prod-img{
-    margin: auto;
-    max-height: 300px;
+.prod-img{
+  margin: auto;
+  max-height: 300px;
 }  
 
 
 .pad{
-    padding : 10px;
+  padding : 10px;
 }
 
 .start-bidding{
-    padding : 10px;
-    border-radius: 10%;
-    text-decoration: none;
-    background-color: rgb(91, 190, 63);
-    color: #fff;
-    display: block;
-    text-align: center;
-    width : 70%;
-    margin-left: auto;
-    margin-right: auto;
+  padding : 10px;
+  border-radius: 10%;
+  text-decoration: none;
+  background-color: rgb(91, 190, 63);
+  color: #fff;
+  display: block;
+  text-align: center;
+  width : 70%;
+  margin-left: auto;
+  margin-right: auto;
 }
 .start-bidding:hover{
-    background-color: rgb(164, 240, 144);
+  background-color: rgb(164, 240, 144);
 }
 
-
-/*...........auction product page styles are here --------*/
-/* .product-container{
-    padding-top: 40px;
-    width : 80%;
-    margin: auto;
-    display: flex;
-    flex-direction: row;
-    gap : 40px;
-}
-.image-section{
-    width: 60%;
-    max-height: 550px;
-}
-.product-details{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
+/* Styles for the product page */
+.product-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #FFF8DC;
 }
 
-.bid-button{
-    background-color: rgb(229, 131, 85);
-
-    border-radius: 20%;
+/* Style for the product image */
+.image-section {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
 }
-.bid-button:hover{
-    background-color: rgb(226, 99, 40);
+
+.image-section img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 10px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
 }
 
+/* Style for the product details */
+.product-details {
+  flex: 1;
+  background-color: #FFFFFF;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
+  height: 100%;
+  overflow: auto;
+}
 
-#countdown{
-    color : red;
-    font-size: 1.4rem;
-} */
+/* Style for the product name */
+.product-name {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #3C1053;
+}
 
- /* Style for the product container */
- .product-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #FFF8DC;
-  }
-  
-  /* Style for the product image */
-  .image-section {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-  }
-  
-  .image-section img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-    border-radius: 10px;
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
-  }
-  
-  /* Style for the product details */
-  .product-details {
-    flex: 1;
-    background-color: #FFFFFF;
-    padding: 40px;
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
-    height: 100%;
-    overflow: auto;
-  }
-  
-  /* Style for the product name */
-  .product-name {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #3C1053;
-  }
-  
-  .product-name h2 {
-    font-size: 36px;
-  }
-  
-  /* Style for the product description */
-  .product-description {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #3C1053;
-  }
-  
-  /* Style for the product price */
-  .product-price {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #3C1053;
-  }
-  
-  .product-price h3 {
-    font-size: 24px;
-  }
+.product-name h2 {
+  font-size: 24px;
+}
+
+/* Style for the product description */
+.product-description {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #3C1053;
+}
+
+/* Style for the product price */
+.product-price {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #3C1053;
+}
+
+.product-price h3 {
+  font-size: 18px;
+}
+
   
   /* Style for the end date and time */
   .end-date,
@@ -210,4 +177,33 @@ img{
   }
 
 
+  /* default styles */
+.product-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
 
+.image-section {
+  width: 40%;
+}
+
+.product-details {
+  width: 55%;
+}
+
+/* media query for mobile devices */
+@media only screen and (max-width: 767px) {
+  .product-container {
+    flex-direction: column;
+  }
+
+  .image-section {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .product-details {
+    width: 100%;
+  }
+}

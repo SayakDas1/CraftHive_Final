@@ -77,7 +77,7 @@ def register(request):
         password = make_password(userpass, KEY, hasher)
         user = User(user_name = username, user_email = useremail, password = password)
         user.save()
-        return render(request, 'index.html')
+        return auction(request)
 
     return render(request, 'register.html')
 

@@ -19,78 +19,96 @@
     
     <style>
      {% block css %} {% endblock %}
-     /*footer*/
-footer {
-  background-color: #D7F3FF;
-  padding: 30px 0;
-  height: 280px;
-  bottom:0px;
-}
-
-footer h4 {
-  font-size: 20px;
-  margin-bottom: 10px;
-  color: #333;
-}
-
-footer p {
-  font-size: 14px;
-  line-height: 1.5;
-  color: #666;
-}
-
-footer a {
-  color: #666;
-  text-decoration: none;
-}
-
-footer a:hover {
-  color: #333;
-}
-
-footer ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-footer ul li {
-  margin-bottom: 5px;
-}
-
-footer ul li:last-child {
-  margin-bottom: 0;
-}
-
-footer .container2 {
-  max-width: 1300px;
-  margin: auto;
-}
-
-footer .row {
-  margin-bottom: 30px;
-}
-
-footer .text-center {
-  font-size: 12px;
-  color: #666;
-  margin-top: 30px;
-}
-body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh; 
-}
-
-main {
-  flex-grow: 1; 
-  word-wrap: break-word;
-}
-
-footer {
-  margin-top: auto;
-  bottom: 0; 
-}
+     /* Small screens */
+     @media (max-width: 767px) {
+       footer {
+         background-color: #D7F3FF;
+         height: auto;
+         padding: 20px 0;
+       }
+       
+       footer .container2 {
+         padding: 0 15px;
+       }
+       
+       footer .row {
+         display: flex;
+         flex-wrap: wrap;
+         justify-content: space-between;
+       }
+       
+       footer .col {
+         flex-basis: 100%;
+         max-width: 100%;
+         margin-bottom: 20px;
+       }
+       
+       footer .text-center {
+         text-align: center;
+       }
+     }
+     
+     /* Medium screens */
+     @media (min-width: 768px) and (max-width: 991px) {
+       footer {
+        background-color: #D7F3FF;
+         height: auto;
+         padding: 25px 0;
+       }
+       
+       footer .container2 {
+         padding: 0 30px;
+       }
+       
+       footer .row {
+         display: flex;
+         flex-wrap: wrap;
+         justify-content: space-between;
+       }
+       
+       footer .col {
+         flex-basis: calc(50% - 15px);
+         max-width: calc(50% - 15px);
+         margin-bottom: 20px;
+       }
+       
+       footer .col:nth-child(odd) {
+         margin-right: 30px;
+       }
+       
+       footer .text-center {
+         text-align: center;
+       }
+     }
+     
+     /* Large screens */
+     @media (min-width: 992px) {
+       footer {
+        background-color: #D7F3FF;
+         height: 280px;
+         padding: 30px 0;
+       }
+       
+       footer .container2 {
+         padding: 0;
+       }
+       
+       footer .row {
+         display: flex;
+         flex-wrap: nowrap;
+         justify-content: space-between;
+       }
+       
+       footer .col {
+         flex-basis: 33.33%;
+         max-width: 33.33%;
+         margin-bottom: 0;
+       }
+       
+       footer .text-center {
+         text-align: right;
+       }
+     }
     </style>
     <script>
 
@@ -114,7 +132,8 @@ footer {
           logout.style.display = 'none';
           user.style.display = 'none';
         }
-        document.getElementById('user-email').innerText = JSON.parse(localStorage.getItem('currentUser')).email;
+        if(localStorage.getItem('currentUser'))
+          document.getElementById('user-email').innerText = JSON.parse(localStorage.getItem('currentUser')).email;
       }
         
       function logout_fun()
@@ -174,7 +193,7 @@ footer {
     <footer style="margin-top:50px;">
       <div class="container2">
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-6 mx-3">
             <h4>Crafthive</h4>
             <p>Revolutionizing Arts and Crafts with Trading with Online Auctions</p>
           </div>

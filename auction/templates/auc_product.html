@@ -13,7 +13,6 @@
         if(bid_form.bid_amt.value != ""){
             let form = document.getElementById('bid_form');
             var graph = creategraph(bid_form.bid_amt.value);
-            alert(graph);
             let currentUser = localStorage.getItem('currentUser');
             if(!currentUser)
             {
