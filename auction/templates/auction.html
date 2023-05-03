@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+
+<body class="background">
+    <h1 class="auction-heading">Ongoing Auctions </h1>
+      <div class="container">
+      
+      {% for item in products %}
+        <div class="product pad">
+          <div class="prod-img pad"><img src="/media/{{item.prod_image}}" /></div>
+
+          <div class="card-details">
+            <div class="card-name">{{ item.prod_name }}</div>
+            <div class="card-price">Present Bid | Rs {{item.prod_price}}</div>
+            <div class="card-countdown" style="color : rgb(68, 200, 117)">Closes at : {{item.end_time}}</div>
+            <a href="/auction/auc_product/{{item.id}}" class="start-bidding">Start Bidding</a>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+</body>
+{% endblock body %}

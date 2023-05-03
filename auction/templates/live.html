@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Live Auction</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body{
+            background-color: #FFF5FF;
+            font-family: century gothic;
+        }
+        canvas{
+            margin-bottom: 50px;
+        }
+        a{
+            
+            text-decoration: none;
+            font-size : 20px;
+            font-weight: 500;
+        }
+        a:hover{
+            color: rgba(255, 99, 132, 1);
+        }
+        p{
+            text-align:center;
+            font-size: 25px;
+        }
+        span{
+            color: #005FC4;
+        }
+        #price{
+            color: #FF8E1A;
+        }
+        #email{
+            color: #FF4B6B;
+        }
+    </style>
+</head>
+<body onload="draw();">
+    <p>Auction For : <span>{{product.prod_name}}</span></p>
+    <p>Starting Price : <span id="price">{{product.prod_start_price}}</span> | Current Price : <span id="price">{{product.prod_price}}</span><p>
+    <canvas id="myChart" height="90vh"></canvas>
+    <p>Last bid placed by : <span id="email">{{product.winner_email}}</span></p>
+    <p><a href="/auction/auc_product/{{product.id}}">Go Back to Product Page</a></p>
+    <script>
+        function draw(){
+            var dataPoints = "{{product.graph}}";
+            dataPoints = dataPoints.split(",");
+            dataPoints = dataPoints.splice(-15);
+            var ctx = document.getElementById('myChart').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['t1', 't2', 't3', 't4', 't5', 't6', 't7', 't8', 't9', 't10', 't11', 't12','t13','t14','t15'],
+                    datasets: [{
+                        label: 'Product Price',
+                        data: dataPoints,
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1,
+                        fill: true,
+
+                    }]
+                },
+            });
+            setTimeout(() => {
+                document.location.reload();
+              }, 10000);
+        }
+        /*function updateChart(){
+        $.ajax({
+            url: '/auction/live/{{id}}',
+            dataType: 'json',
+            success: function(data) {
+                console.log("Success")
+                //draw(data);
+            }
+        });
+    }*/
+    </script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block head %}
+<script>
+  setTimeout(() => {
+    checkwinner()
+  }, 100);
+
+  function checkwinner()
+  {
+    console.log('checkwinner called');
+    const items = document.getElementsByClassName('start-bidding')
+    const winner_email = document.getElementsByClassName('card-countdown')[0].innerText;
+    console.log(items)
+    Array.from(items).forEach(element => {
+      console.log(winner_email)
+      //console.log(JSON.parse(localStorage.getItem('currentUser')).email)
+      if(!localStorage.getItem('currentUser') || JSON.parse(localStorage.getItem('currentUser')).email != winner_email){
+        
+        element.style.display = 'none';
+      }
+    });
+
+
+  }
+</script>
+{% endblock %}
+
+{% block body %}
+
+  
+
+<body class="background" >
+    <h1 class="auction-heading">Winners Page </h1>
+      <div class="container" >
+      
+      {% for item in closed_products %}
+        <div class="product pad">
+          <div class="prod-img pad"><img src="/media/{{item.prod_image}}" /></div>
+
+          <div class="card-details">
+            <div class="card-name">{{ item.prod_name }}</div>
+            <div class="card-price">Closed at | Rs {{item.prod_price}}</div>
+            {%if item.winner_email != 'default@gmail.com'%}
+            Winner : 
+            <div class="card-countdown" style="color : rgb(68, 200, 117)">{{item.winner_email}}</div>
+            <a href="payment/{{item.id}}/{{item.winner_email}}" class="start-bidding">Checkout</a>
+            {%else%}
+            <h5 style="color: red;">Item Unsold</h5>
+            {%endif%}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+</body>
+{%endblock%}

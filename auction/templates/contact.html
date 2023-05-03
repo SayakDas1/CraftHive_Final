@@ -1,0 +1,93 @@
+<html>
+    <head>
+        <title>Contact Us</title>
+    </head>
+    <style>
+        body{
+            background-image:url('/static/bg2.jpg');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        h2{
+            text-align: center;
+            margin-top: 30px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 50px;
+            background-color: #f7f7f7;
+            border-radius: 5px;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+          }
+          
+          form {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 20px;
+          }
+          
+          form p {
+            font-size: 18px;
+            margin: 10px 0;
+          }
+          
+          input[type=text], input[type=number], textarea {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #e0e0e0;
+            font-size: 16px;
+            color: #333;
+          }
+          
+          textarea {
+            resize: none;
+            height: 100px;
+          }
+          
+          button[type=submit], button {
+            grid-column: 1 / span 2;
+            background-color: #3498db;
+            color: #fff;
+            font-size: 18px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%;
+          }
+          
+          button[type=submit]:hover, button:hover {
+            background-color: #2980b9;
+          }
+          
+    </style>
+    <body>
+
+<h2>Enter the following details : </h2>
+<div class="container">
+    <form action="/contact" method="post">
+        {% csrf_token %}
+        <p>Name : </p>
+        <p><input type="text" name="name" id=""></p>
+
+        <p>Email : </p>
+        <p><input type="text" name="email" id=""></p>
+
+        <p>Phone : </p>
+        <p><input type="number" name="phone" id=""></p>
+
+        <p>Your reason to contact us : </p>
+        <p><textarea name="desc" id=""></textarea></p>
+        
+        <button class="btn btn-lg btn-primary" type="submit">Submit</button>
+        <a href="/auction/"><button type="button">Go Back</button></a>
+      
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,185 @@
+{% extends 'base.html' %}
+{%block css%}
+*{
+    font-family: 'Montserrat', sans-serif;
+}
+{%endblock%}
+{% block body %}
+<script defer>
+
+    let myForm;
+    function handleBid(){
+
+        if(bid_form.bid_amt.value != ""){
+            let form = document.getElementById('bid_form');
+            var graph = creategraph(bid_form.bid_amt.value);
+            alert(graph);
+            let currentUser = localStorage.getItem('currentUser');
+            if(!currentUser)
+            {
+                window.open("/auction/user/register", );
+            }
+            console.log(currentUser);
+            let userDetails = JSON.parse(currentUser);
+
+            bid_form.useremail.value = userDetails.email;
+            bid_form.graph.value = graph;
+            console.log(bid_form.useremail.value);
+            
+            form.submit();
+        }
+    }
+
+    function creategraph(bid){
+        console.log(bid);
+        //var c=0;
+        var graph="{{product.graph}}";
+        /*for(var i=0;i<graph.length;i++){
+            if(graph.charAt(i)==',')
+            {
+                c++;
+            }
+        }
+        if(c==15)
+            graph=graph.substring(graph.indexOf(','));*/
+        if(graph=="")
+        {
+            graph+={{product.prod_start_price}};
+            graph+=","+bid;   
+       }    
+        else
+        {
+            graph+=","+bid;
+        }
+        return graph;
+    }
+    
+    let timeRemaining, countdownInterval;
+    function countdown() {
+        var hours = Math.floor(timeRemaining / (1000 * 60 * 60));
+        var minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+        document.getElementById("countdown").innerHTML ="Remaining Time -> <div class='timer' style='color : red;font-size: 1.4rem;'>" + hours + "h " + minutes + "m " + seconds + "s </div>" ;
+
+        timeRemaining -= 1000;
+
+        if (timeRemaining < 0) {
+            clearInterval(countdownInterval);
+            document.getElementById("countdown").innerHTML = "Countdown has ended!";
+            document.getElementById("countdown").style.color = "orange";
+        }
+    }
+
+    window.onload = function checkbid()
+    {
+        const register = document.getElementById('register');
+        const login = document.getElementById('login');
+        const logout = document.getElementById('logout');
+        const user = document.getElementById('user-email');
+        if(localStorage.getItem('currentUser'))
+        {
+          register.style.display = 'none';
+          login.style.display = 'none';
+          logout.style.display = 'block';
+          user.style.display = 'block';
+        }
+        else
+        {
+          register.style.display = 'block';
+          login.style.display = 'block';
+          logout.style.display = 'none';
+          user.style.display = 'none';
+        }
+        if(localStorage.getItem('currentUser')){
+            document.getElementById('user-email').innerText = JSON.parse(localStorage.getItem('currentUser')).email;
+        }
+        myForm = document.getElementById('bid_form');
+        myForm.addEventListener('submit', (event) => {     //preventing form submit
+            event.preventDefault();
+        });
+
+
+        console.log("check bid was called");
+        let status = document.getElementsByClassName('bid_status')[0].innerText;
+        if(status === 'fail')
+            alert("Your bid amount was lower than current bid . Please bid again");
+        else if(status === 'tle')
+            alert("Bid timer has ended , Item is no longer for sale")
+
+        let enddate_string = document.getElementsByClassName('end-date')[0].innerText;
+        let endtime_string = document.getElementsByClassName('end-time')[0].innerText;
+        var dateObj = new Date(enddate_string);
+        console.log(dateObj);
+
+
+        // get the time string
+        var timeString = endtime_string;
+
+        // split the string into hours and minutes
+        var timeArr = timeString.split(":");
+        var hours = parseInt(timeArr[0], 10);
+        var minutes = parseInt(timeArr[1], 10);
+
+        if (timeString.indexOf("p.m.") !== -1 && hours !== 12) {
+            hours += 12;
+        } else if (timeString.indexOf("a.m.") !== -1 && hours === 12) {
+            hours = 0;
+        }
+
+        dateObj.setHours(hours);
+        dateObj.setMinutes(minutes);
+
+        console.log(dateObj); 
+        
+        var currentTime = new Date();
+        var endTime = dateObj;
+
+        //calculate the time remaining in milliseconds
+        timeRemaining = endTime - currentTime;
+        console.log(timeRemaining);
+
+        countdownInterval = setInterval(countdown, 1000);
+    }
+
+    function keepcalling()
+    {
+        let currPrice = {{product.prod_price}};
+        let bid_inp = document.getElementById("bid_amt");
+        bid_inp.value =  currPrice + 10;
+        console.log("Bidding with amount ", bid_inp.value);
+        handleBid();
+    }
+
+</script>
+<div class="bid_status"  hidden>{{bid}}</div>
+<div class="product-container" style="margin-bottom: -50px;">
+    
+    <div class="image-section">
+        <img src="/media/{{product.prod_image}}" />
+    </div>
+
+    <div class="product-details">
+        <div class="product-name"><h2>{{ product.prod_name}}</h2></div>
+        <div class="product-description">{{product.prod_desc}}</div>
+        <div class="product-price">Last Updated : <h3>Rs {{product.prod_price}}</h3></div>
+        <div class="end-date">Closes at : {{product.end_time.date}}</div>
+        <div class="end-time">{{product.end_time.time}}</div>
+        <div id="countdown"></div>
+
+        
+
+        <div class="bid">
+            
+            <form action="/auction/auc_product/{{product.id}}" method="post" id="bid_form" name="bid_form">
+                {% csrf_token %}
+                Enter your Bid : <input type="number" name="bid_amt" id="bid_amt" style="border:1px solid grey; border-radius: 5px; width: 150px;" required>
+                <input type="hidden" name="useremail">
+                <input type="hidden" name="graph">
+                <button type="submit" class="bid-button" onclick="handleBid()">BID</button><br>
+                <a href="/auction/live/{{product.id}}" class="btn btn-info my-3">VIEW LIVE</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock body %}

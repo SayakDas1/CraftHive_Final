@@ -1,0 +1,178 @@
+<html>
+<head>
+    <title>Upload Product</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700&family=Rubik:wght@300;400;500&display=swap" rel="stylesheet">
+    <script>
+      function checklogin()
+      {
+        if(!localStorage.getItem('currentUser'))
+        {
+          document.getElementById('warning').style.display = 'block';
+          document.getElementById('login-link').style.display = 'block';
+          document.getElementById('submit-btn').style.display = 'none';
+        }
+      }
+      
+    </script>
+
+<style>
+    body {
+        background-image: url('/static/bg_up.jpg');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        font-family: 'Montserrat', sans-serif;
+      }
+      
+      h1 {
+        text-align: center;
+        font-size: 36px;
+        margin-top: 50px;
+        color: #1F361D;
+      }
+      
+      form {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 30px;
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px #cccccc;
+      }
+      
+      input[type="text"],
+      input[type="date"],
+      input[type="time"],
+      input[type="number"],
+      input[type="file"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #cccccc;
+        border-radius: 4px;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+        font-size: 16px;
+      }
+      
+      button[type="submit"],#login-link {
+        background-color: #4CAF50;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+        width: 100%
+      }
+      
+      button[type="submit"]:hover, #login-link:hover{
+        background-color: #3e8e41;
+      }
+      
+      #login-link{
+        text-decoration: none;
+      }
+      
+      label {
+        display: block;
+        font-size: 18px;
+        font-weight: bold;
+        margin-top: 20px;
+      }
+      
+      input:focus,
+      textarea:focus {
+        outline: none;
+        border: 1px solid #4CAF50;
+      }
+      
+      input[type="file"]::-webkit-file-upload-button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+      }
+      
+      input[type="file"]::-webkit-file-upload-button:hover {
+        background-color: #3e8e41;
+      }
+      
+      input[type="file"]::-moz-file-upload-button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+      }
+      
+      input[type="file"]::-moz-file-upload-button:hover {
+        background-color: #3e8e41;
+      }
+      
+      input[type="file"]::-ms-file-upload-button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+      }
+      
+      input[type="file"]::-ms-file-upload-button:hover {
+        background-color: #3e8e41;
+      }
+      
+      input[type="file"]:hover,
+      input[type="file"]:focus {
+        background-color: #f2f2f2;
+      }
+      a:hover{
+        color: blue;
+        font-weight: 600;
+      }
+</style>
+</head>
+<body onload='checklogin()'>
+    <h1>Upload Product for Auction</h1>
+
+    <form method="POST" action="" enctype="multipart/form-data">
+      <h3 id='warning' style='display: none; text-align:center'>You need to be logged in to upload a product for auction</h3>
+      <a id='login-link' style='display : none;padding : 5px; background-color : ; text-align : center' href='/auction/user/login'>Login</a>
+
+        {% csrf_token %}
+        <p>Enter the name of the product</p>
+        <input type="text" name="name" id="">
+        <p>Enter the description of the product</p>
+        <input type="text" name="desc" id="">
+        <p>Enter seller</p>
+        <input type="text" name="seller" id="">
+        <p>Enter the Artist</p>
+        <input type="text" name="artist" id="">
+        <p>Enter the starting price</p>
+        <input type="text" name="start_price" id="">
+        <p>Enter the Starting date of the auction</p>
+        <input type="date" name="start_date" id="">
+        <p>Enter the Starting Time of the auction</p>
+        <input type="time" name="start_time" id="">
+        
+        <p>Enter the hours duration</p>
+        <input type="number" name="hours" id="">
+        <p>Enter the mins duration</p>
+        <input type="number" name="mins" id="">
+
+        <p>Enter the Image of prod</p>
+        <input type="file" name="prod_img" id="">
+
+        <button type="submit" id='submit-btn'>Submit</button>
+        <center><p>Go Back to <a href="/auction">Homepage</a></p></center>
+    </form>
+</body>
+</html>

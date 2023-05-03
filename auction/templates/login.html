@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Registration Form</title>
+	<link rel="stylesheet" type="text/css" href="/static/register.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700&family=Rubik:wght@300;400;500&display=swap" rel="stylesheet">
+    <script>
+        function handleSubmit()
+        {
+            if(localStorage.getItem('currentUser'))
+            {
+
+                console.log('making the get request'); 
+                var xmlHttp = new XMLHttpRequest();
+                xmlHttp.open( "GET", '/', false ); // false for synchronous request
+                xmlHttp.send( null );
+            }
+            let email = userform.email.value;
+            let password = userform.password.value;
+            let csrfmiddlewaretoken = userform.csrfmiddlewaretoken.value;
+
+            const userDetails = {
+                email : email
+            }
+            localStorage.setItem('currentUser', JSON.stringify(userDetails));
+
+            console.log(csrfmiddlewaretoken);
+            
+            let form = document.getElementById('userform');
+            form.submit();
+
+        }
+    </script>
+    <style>
+        body{
+            background-image:url('/static/bg2.jpg');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    </style>
+    <!-- Enforce email uniqueness TODO-->
+</head>
+<body>
+	<div class="container">
+		<form action="" method="post" name="userform" id="userform">
+            {% csrf_token %}
+			<h2>Login Form</h2>
+
+            <div class="error">{{reason}}</div>
+            
+			<div class="form-group">
+				<label for="email">Email</label>
+				<input type="email" id="email" name="email" required>
+			</div>
+			<div class="form-group">
+				<label for="password">Password</label>
+				<input type="password" id="password" name="password" required>
+			</div>
+			<div onclick="handleSubmit()" type="submit" id="submit-button">Submit</div>
+		</form><br><br>
+        <p>Not registered Yet ? Go to <a href="../register">Register</a> page</p>
+        <p>Go back to <a href="/auction">Home</a> page</p>
+	</div>
+</body> 
+</html>
