@@ -11,14 +11,17 @@ input[type=radio]{
     position: fixed;
     opacity: 0;
     pointer-events: none;
+    
 }
 .rating {
     display: flex;
     align-items: center;
+    
   }
   
   .rating input[type="radio"] {
     display: none;
+    
   }
   
   .rating label {
@@ -27,11 +30,15 @@ input[type=radio]{
     cursor: pointer;
   }
   
-  .rating label:hover ::before,
+  .rating label:hover::after,
   .rating label:hover ~ label,
   .rating input[type="radio"]:checked ~ label {
     color: #ffbf00;
+    background: linear-gradient(to right, #ffbf00 0%, #ffbf00 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
+  
 {%endblock%}
 {% block body %}
 
@@ -96,19 +103,19 @@ input[type=radio]{
         </div>
 
         <div class="rating">
-        <input type="radio" id="star-1" name="rate" value="1" class="fa fa-star">
+        <input type="radio" id="star-1" name="rate" value="1" class="fa fa-star" onclick="paint(1);">
         <label for="star-1" class="fa fa-star"></label>
 
-        <input type="radio" id="star-2" name="rate" value="2" class="fa fa-star">
+        <input type="radio" id="star-2" name="rate" value="2" class="fa fa-star" onclick="paint(2);">
         <label for="star-2" class="fa fa-star"></label>
 
-        <input type="radio" id="star-3" name="rate" value="3" class="fa fa-star">
+        <input type="radio" id="star-3" name="rate" value="3" class="fa fa-star" onclick="paint(3);">
         <label for="star-3" class="fa fa-star"></label>
 
-        <input type="radio" id="star-4" name="rate" value="4" class="fa fa-star">
+        <input type="radio" id="star-4" name="rate" value="4" class="fa fa-star" onclick="paint(4);">
         <label for="star-4" class="fa fa-star"></label>
 
-        <input type="radio" id="star-5" name="rate" value="5" class="fa fa-star">
+        <input type="radio" id="star-5" name="rate" value="5" class="fa fa-star" onclick="paint(5);">
         <label for="star-5" class="fa fa-star"></label>
 
         <input type="submit" value="Rate Now" class="btn btn-info mx-3">
@@ -136,6 +143,24 @@ input[type=radio]{
 {% endblock %}
 {% block js %}
 <script>
+const stars = document.querySelectorAll('.star');
+
+function paintStars(rating) {
+  for (let i = 0; i < stars.length; i++) {
+    if (i < rating) {
+      stars[i].classList.add('active');
+    } else {
+      stars[i].classList.remove('active');
+    }
+  }
+}
+
+stars.forEach((star) => {
+  star.addEventListener('click', () => {
+    const rating = parseInt(star.dataset.rating);
+    paintStars(rating);
+  });
+});
     if (localStorage.getItem('cart') == null) {
         var cart = {};
     }
